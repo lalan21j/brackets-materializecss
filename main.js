@@ -1,52 +1,28 @@
 define(function (require, exports, module) {
-	"use strict";
+  "use strict";
 
-	var docIndex = 1,
-	    commandId = "nuevo-materialize-pagina",
-	    menuID = "mcss.menuID",
-	    menuLabel = "Nueva plantilla Materializecss",
-		DocumentManager = brackets.getModule("document/DocumentManager"),
-		Commands = brackets.getModule("command/Commands"),
-		CommandManager = brackets.getModule("command/CommandManager"),
-		KeyBindingManager = brackets.getModule("command/KeyBindingManager"),
-		EditorManager = brackets.getModule("editor/EditorManager"),
-		MainViewManager = brackets.getModule("view/MainViewManager"),
-		Menus = brackets.getModule("command/Menus"),
-		bootstrapTemplate = require("text!template/basic.html"),
-		sidebar = $("#sidebar"),
-		toolbar = $("#main-toolbar"),
-		menu;
+  var docIndex = 1,
+    menuID = "lmata21.mtzcss.templatecss",
+    menuLabel = "Nueva plantilla Materializecss",
+    DocumentManager = brackets.getModule("document/DocumentManager"),
+    Commands = brackets.getModule("command/Commands"),
+    CommandManager = brackets.getModule("command/CommandManager"),
+    EditorManager = brackets.getModule("editor/EditorManager"),
+    MainViewManager = brackets.getModule("view/MainViewManager"),
+    Menus = brackets.getModule("command/Menus"),
+    bootstrapTemplate = require("text!template/basic.html"),
+    menu;
 
+  function newFileHandle() {
+    var doc = DocumentManager.createUntitledDocument(docIndex++, ".html");
 
-	function templateHandle(templateContent) {
-		try {
-			var activeEditor = EditorManager.getActiveEditor();
-			activeEditor.document.replaceRange(templateContent, activeEditor.getCursorPos());
-		} catch (err) {}
-	}
+    MainViewManager._edit(MainViewManager.ACTIVE_PANE, doc);
 
-	function newFileHandle() {
-		var defaultExtension = ".html",
-		    doc = DocumentManager.createUntitledDocument(docIndex++, defaultExtension);
+    var activeEditor = EditorManager.getActiveEditor();
+    activeEditor.document.replaceRange(bootstrapTemplate, activeEditor.getCursorPos());
+  }
 
-		MainViewManager._edit(MainViewManager.ACTIVE_PANE, doc);
-		templateHandle(bootstrapTemplate);
-		return new $.Deferred().resolve(doc).promise();
-	}
-
-	sidebar.on('dblclick', 'div', function (e) {
-		if (e.target === this) {
-			newFileHandle();
-		}
-	});
-
-	toolbar.on('dblclick', function (e) {
-		if (e.target === this) {
-			newFileHandle();
-		}
-	});
-
-	CommandManager.register(menuLabel, menuID, newFileHandle);
-	menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
-	menu.addMenuItem(menuID, undefined, Menus.AFTER, Commands.FILE_NEW_UNTITLED);
+  CommandManager.register(menuLabel, menuID, newFileHandle);
+  menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
+  menu.addMenuItem(menuID, undefined, Menus.AFTER, Commands.FILE_NEW_UNTITLED);
 });

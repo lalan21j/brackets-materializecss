@@ -2,8 +2,7 @@
   "name": "brackets-materializecss",
   "title": "Materializecss plantilla basica",
   "author": "Luis Mata",
-  "homepage": "https://github.com/lalan21j/brackets-materializecss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Agrega una nueva plantilla materializecss básica a tu proyecto.",
   "license": "MIT",
   "keywords": [
